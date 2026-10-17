@@ -1,0 +1,10 @@
+{
+  "headers": [
+    {
+      "source": "/yokis.vcf",
+      "headers": [
+        { "key": "Content-Type", "value": "text/vcard; charset=utf-8" }
+      ]
+    }
+  ]
+}

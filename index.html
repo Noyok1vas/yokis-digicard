@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f4f4f4">
+  <meta name="description" content="Hi! I’m Yokis! An industrial designer crafting meaningful experiences across physical and digital mediums.">
+  <title>Hi! I’m Yokis!</title>
+  <!--
+    REPLACE — search these labels:
+    1. PORTRAIT     assets/portrait.jpg and its alt text
+    2. UNEA IMAGE   assets/unea.jpg (used by the card and the preview)
+    3. NIJIMU IMAGE assets/nijimu.jpg
+    4. EDIT URL     company and project links below
+    5. CONTACT      yokis.vcf — email, website, LinkedIn, Instagram.
+                    No phone number is in the site data. Add a line when you have one:
+                    TEL;TYPE=CELL:+1xxxxxxxxxx
+    6. PNG CARD     replace card.png and keep the filename
+  -->
+  <style>
+    /* Tokens from docs/design-system.md. Change colors and type here. */
+    :root {
+      --color-primary: #212121;
+      --color-secondary: #a6a6a6;
+      --color-body: #f4f4f4;
+      --color-body-render: #f5f5f5;
+      --color-white: #ffffff;
+      --color-dark-grey: #686868;
+      --color-line-light: rgb(33 33 33 / 0.1);
+      --color-overlay: rgb(34 34 34 / 0.4);
+      --color-light-grey: #dddddd;
+      --font-primary: "Inter Tight", "Helvetica Neue", sans-serif;
+      --font-mono: "Roboto Mono", ui-monospace, monospace;
+      --text-2xs: 0.563rem;
+      --text-xs: 0.75rem;
+      --text-sm: 1rem;
+      --text-md: 1.333rem;
+      --text-lg: 1.777rem;
+      --text-xl: 2.369rem;
+      --text-2xl: 3.157rem;
+      --leading-tight: 1.15;
+      --leading-snug: 1.2;
+      --leading-base: 1.333;
+      --tracking-body: -0.0178em;
+      --tracking-display: -0.0422em;
+      --tracking-mono: 0.0238em;
+      --space-3xs: 0.317rem;
+      --space-2xs: 0.563rem;
+      --space-xs: 0.75rem;
+      --space-sm: 1rem;
+      --space-md: 1.333rem;
+      --space-lg: 1.777rem;
+      --space-xl: 2.369rem;
+      --space-2xl: 5.61rem;
+      --radius-pill: 288px;
+      --shadow-button: 0 1px 2px -1px var(--color-line-light), 0 1px 3px 0 var(--color-line-light);
+      --shadow-footer: 0 -1px 2px 0 var(--color-light-grey);
+      --ease-out: cubic-bezier(0, 0, 0.58, 1);
+      --duration-link: 200ms;
+      --page: 36rem;
+    }
+
+    @font-face {
+      font-family: "Inter Tight";
+      font-style: normal;
+      font-weight: 400 750;
+      font-display: swap;
+      src: url("assets/fonts/intertight.woff2") format("woff2");
+    }
+    @font-face {
+      font-family: "Roboto Mono";
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url("assets/fonts/robotomono.woff2") format("woff2");
+    }
+
+    /* Root size follows the site scale. 16px is the desktop default. */
+    html { font-size: 16px; }
+    @media (max-width: 991px) { html { font-size: 15px; } }
+    @media (max-width: 767px) { html { font-size: 14px; } }
+    @media (max-width: 479px) { html { font-size: 13px; } }
+    @media (min-width: 1440px) { html { font-size: 16.5px; } }
+    @media (min-width: 1920px) { html { font-size: 17px; } }
+
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      background: var(--color-body);
+      color: var(--color-primary);
+      font-family: var(--font-primary);
+      font-weight: 400;
+      font-size: var(--text-sm);
+      line-height: var(--leading-base);
+      letter-spacing: var(--tracking-body);
+      -webkit-font-smoothing: antialiased;
+    }
+    button, a { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+    button { font: inherit; color: inherit; }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    :focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }
+
+    .page {
+      width: min(100%, var(--page));
+      margin: 0 auto;
+      padding: var(--space-lg) var(--space-sm) calc(7.5rem + env(safe-area-inset-bottom, 0px));
+    }
+
+    .masthead {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-lg);
+    }
+    .wordmark {
+      font-size: var(--text-md);
+      font-weight: 500;
+      letter-spacing: var(--tracking-display);
+      line-height: var(--leading-tight);
+    }
+    .label {
+      margin: 0;
+      font-family: var(--font-mono);
+      font-size: var(--text-2xs);
+      font-weight: 400;
+      letter-spacing: var(--tracking-mono);
+      text-transform: uppercase;
+      color: var(--color-secondary);
+    }
+
+    /* PORTRAIT — replace assets/portrait.jpg */
+    .portrait {
+      margin: 0 0 var(--space-lg);
+      background: var(--color-body-render);
+    }
+    .portrait img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1600 / 948;
+      object-fit: cover;
+      object-position: 70% center;
+    }
+
+    h1 {
+      margin: 0 0 var(--space-sm);
+      font-size: var(--text-2xl);
+      font-weight: 500;
+      line-height: var(--leading-tight);
+      letter-spacing: var(--tracking-display);
+    }
+    .intro {
+      margin: 0;
+      max-width: 35ch;
+      color: var(--color-primary);
+    }
+
+    section { margin-top: var(--space-xl); }
+    .section-label { margin-bottom: var(--space-md); }
+
+    /* Experience stays quiet so the project cards read first. */
+    .experience { margin: 0; padding: 0; list-style: none; }
+    .experience li {
+      padding: var(--space-sm) 0;
+      border-top: 1px solid var(--color-line-light);
+    }
+    .experience li:last-child { border-bottom: 1px solid var(--color-line-light); }
+    .role {
+      margin: 0;
+      font-size: var(--text-sm);
+      font-weight: 500;
+      letter-spacing: var(--tracking-display);
+      line-height: var(--leading-snug);
+    }
+    .role a { border-bottom: 1px solid var(--color-line-light); }
+    .meta {
+      margin: var(--space-3xs) 0 0;
+      color: var(--color-dark-grey);
+      font-size: var(--text-xs);
+      line-height: var(--leading-base);
+    }
+
+    /* Currently Working On — larger type, full images. */
+    .now .section-label { margin-bottom: var(--space-lg); }
+    .projects { display: grid; gap: var(--space-lg); }
+    .project {
+      display: block;
+      width: 100%;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+    }
+    .project img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      background: var(--color-body-render);
+    }
+    .project-title {
+      display: block;
+      margin-top: var(--space-xs);
+      font-size: var(--text-lg);
+      font-weight: 500;
+      letter-spacing: var(--tracking-display);
+      line-height: var(--leading-tight);
+    }
+    .project-meta {
+      display: block;
+      margin-top: var(--space-3xs);
+      color: var(--color-dark-grey);
+      font-family: var(--font-mono);
+      font-size: var(--text-2xs);
+      letter-spacing: var(--tracking-mono);
+      text-transform: uppercase;
+    }
+
+    .find { margin-top: var(--space-xl); }
+    .find a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 44px;
+      padding: var(--space-xs) 0;
+      border-top: 1px solid var(--color-line-light);
+      font-size: var(--text-sm);
+    }
+    .find a:last-child { border-bottom: 1px solid var(--color-line-light); }
+    .find small {
+      font-family: var(--font-mono);
+      font-size: var(--text-2xs);
+      letter-spacing: var(--tracking-mono);
+      color: var(--color-secondary);
+    }
+    .footnote {
+      margin: var(--space-lg) 0 0;
+      color: var(--color-secondary);
+      font-family: var(--font-mono);
+      font-size: var(--text-2xs);
+      letter-spacing: var(--tracking-mono);
+    }
+
+    .actions {
+      position: fixed;
+      z-index: 2;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: var(--space-xs);
+      padding: var(--space-xs) var(--space-sm) calc(var(--space-xs) + env(safe-area-inset-bottom, 0px));
+      background: var(--color-body);
+      box-shadow: var(--shadow-footer);
+    }
+    .action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--color-line-light);
+      background: var(--color-white);
+      font-size: var(--text-xs);
+      font-weight: 500;
+      letter-spacing: var(--tracking-body);
+    }
+    .action.primary {
+      background: var(--color-primary);
+      color: var(--color-body);
+      border-color: var(--color-primary);
+      box-shadow: var(--shadow-button);
+    }
+
+    dialog {
+      width: min(100% - var(--space-lg), var(--page));
+      max-height: calc(100dvh - var(--space-lg));
+      margin: auto;
+      padding: 0;
+      border: 0;
+      background: var(--color-body);
+      color: var(--color-primary);
+    }
+    dialog::backdrop { background: var(--color-overlay); }
+    .preview-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      padding: var(--space-xs) var(--space-sm);
+    }
+    .close {
+      min-width: 44px;
+      min-height: 44px;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      font-size: var(--text-xs);
+    }
+    .preview img {
+      width: 100%;
+      height: auto;
+      max-height: 78dvh;
+      object-fit: contain;
+      background: var(--color-body-render);
+    }
+
+    @media (hover: hover) {
+      a, .project, .action {
+        transition: opacity var(--duration-link) var(--ease-out);
+      }
+      a:hover, .project:hover, .action:hover { opacity: 0.55; }
+    }
+    @media (min-width: 768px) {
+      .page { padding-top: var(--space-xl); }
+      .projects { grid-template-columns: 1fr 1fr; gap: var(--space-md); }
+    }
+    body:has(dialog[open]) .actions { display: none; }
+    @media (prefers-reduced-motion: reduce) {
+      a, .project, .action { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="masthead">
+      <p class="wordmark">yokis</p>
+      <p class="label">Industrial designer</p>
+    </header>
+
+    <!-- PORTRAIT: replace assets/portrait.jpg, then update the alt. -->
+    <figure class="portrait">
+      <img
+        src="assets/portrait.jpg"
+        alt="Yokis Bai, seen from behind, crossing a sunlit street in Los Angeles with a tote bag over her shoulder; black-and-white photo."
+        width="1600"
+        height="948"
+      >
+    </figure>
+
+    <h1>Hi! I’m Yokis!</h1>
+    <p class="intro">I’m an industrial designer crafting meaningful experiences across physical and digital mediums.</p>
+
+    <section aria-labelledby="experience-label">
+      <h2 id="experience-label" class="label section-label">My experience</h2>
+      <ul class="experience">
+        <li>
+          <p class="role">ArtCenter College of Design</p>
+          <p class="meta">Graduate Industrial Design — graduating Fall 2026</p>
+        </li>
+        <li>
+          <!-- EDIT URL -->
+          <p class="role"><a href="https://www.yang-design.com/" target="_blank" rel="noopener noreferrer">YANG DESIGN</a></p>
+          <p class="meta">Previously CMF Intern<br>Shanghai, China</p>
+        </li>
+        <li>
+          <!-- EDIT URL -->
+          <p class="role"><a href="https://www.carawayhome.com/" target="_blank" rel="noopener noreferrer">Caraway Home</a></p>
+          <p class="meta">Incoming Industrial Design Intern<br>Los Angeles, CA</p>
+        </li>
+      </ul>
+    </section>
+
+    <section class="now" aria-labelledby="now-label">
+      <h2 id="now-label" class="label section-label">Currently working on</h2>
+      <div class="projects">
+        <!-- UNEA IMAGE: replace assets/unea.jpg. Tap opens the preview; it does not leave the page. -->
+        <button class="project" type="button" data-open="unea-preview">
+          <img src="assets/unea.jpg" alt="Unea wrist wearable, rendered in brushed metal" width="1600" height="1600">
+          <span class="project-title">Unea</span>
+          <span class="project-meta">Wrist wearable</span>
+        </button>
+        <!-- NIJIMU IMAGE + EDIT URL -->
+        <a class="project" href="https://weieach.github.io/nijimu/" target="_blank" rel="noopener noreferrer">
+          <img src="assets/nijimu.jpg" alt="Nijimu: a glossy, liquid-like digital form in lavender and grey, stretched as if pulled by hand." width="1400" height="1400">
+          <span class="project-title">Nijimu</span>
+          <span class="project-meta">Interactive experience</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="find" aria-labelledby="find-label">
+      <h2 id="find-label" class="label section-label">Where to find me</h2>
+      <!-- EDIT URL -->
+      <a href="https://yokis.space" target="_blank" rel="noopener noreferrer">Website <small>yokis.space</small></a>
+      <!-- EDIT URL -->
+      <a href="https://www.linkedin.com/in/yokis-bai" target="_blank" rel="noopener noreferrer">LinkedIn <small>yokis-bai</small></a>
+      <!-- EDIT URL -->
+      <a href="https://www.instagram.com/yoki.iis_design/" target="_blank" rel="noopener noreferrer">Instagram <small>yoki.iis_design</small></a>
+      <p class="footnote">© Yokis Bai 2026</p>
+    </section>
+  </main>
+
+  <!-- CONTACT: Add to Contacts opens yokis.vcf. PNG CARD: Save Card opens card.png. -->
+  <div class="actions">
+    <a class="action primary" href="yokis.vcf">Add to Contacts</a>
+    <a class="action" href="card.png" download="Yokis.png">Save Card</a>
+  </div>
+
+  <dialog id="unea-preview" class="preview">
+    <div class="preview-bar">
+      <p class="label">Unea</p>
+      <form method="dialog"><button class="close" type="submit">Close</button></form>
+    </div>
+    <!-- UNEA IMAGE: same file as the card above. -->
+    <img src="assets/unea.jpg" alt="Unea wrist wearable, rendered in brushed metal" width="1600" height="1600">
+  </dialog>
+
+  <script>
+    var openButton = document.querySelector("[data-open]");
+    var preview = document.getElementById("unea-preview");
+    openButton.addEventListener("click", function () {
+      preview.showModal();
+    });
+    preview.addEventListener("click", function (event) {
+      if (event.target === preview) preview.close();
+    });
+  </script>
+</body>
+</html>
