@@ -167,12 +167,11 @@
       line-height: var(--leading-base);
     }
 
-    /* Two 1:1 previews side by side, so both fit on one phone screen. */
     .now .section-label { margin-bottom: var(--space-sm); }
     .projects {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-xs);
+      grid-template-columns: 1fr;
+      gap: var(--space-md);
     }
     .project {
       display: block;
@@ -192,8 +191,8 @@
     }
     .project-title {
       display: block;
-      margin-top: var(--space-2xs);
-      font-size: var(--text-sm);
+      margin-top: var(--space-xs);
+      font-size: var(--text-lg);
       font-weight: 500;
       letter-spacing: var(--tracking-display);
       line-height: var(--leading-tight);
@@ -266,34 +265,20 @@
       box-shadow: var(--shadow-button);
     }
 
-    dialog {
-      width: min(100% - var(--space-lg), var(--page));
-      max-height: calc(100dvh - var(--space-lg));
+    dialog.preview {
+      width: min(92vw, 92dvh, var(--page));
+      aspect-ratio: 1;
       margin: auto;
       padding: 0;
       border: 0;
-      background: var(--color-body);
-      color: var(--color-primary);
+      background: transparent;
+      overflow: hidden;
     }
     dialog::backdrop { background: var(--color-overlay); }
-    .preview-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-sm);
-      padding: var(--space-xs) var(--space-sm);
-    }
-    .close {
-      min-width: 44px;
-      min-height: 44px;
-      border: 0;
-      background: transparent;
-      cursor: pointer;
-      font-size: var(--text-xs);
-    }
     .reel {
       display: flex;
-      align-items: flex-start;
+      width: 100%;
+      height: 100%;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
@@ -303,34 +288,34 @@
     .reel img {
       flex: 0 0 100%;
       width: 100%;
-      height: auto;
-      aspect-ratio: 1;
-      object-fit: contain;
+      height: 100%;
+      object-fit: cover;
       scroll-snap-align: start;
-      background: var(--color-body-render);
     }
-    .reel-nav {
+    .float {
+      position: absolute;
+      z-index: 1;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-xs);
-      padding: var(--space-xs) var(--space-sm) var(--space-sm);
-    }
-    .reel-nav button {
-      min-height: 44px;
-      border: 1px solid var(--color-line-light);
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border: 0;
       border-radius: var(--radius-pill);
-      background: transparent;
+      background: rgb(244 244 244 / 0.88);
+      color: var(--color-primary);
       cursor: pointer;
     }
+    .float svg { width: 18px; height: 18px; }
+    .float.prev { left: var(--space-xs); top: 50%; transform: translateY(-50%); }
+    .float.next { right: var(--space-xs); top: 50%; transform: translateY(-50%); }
+    .float.close { top: var(--space-xs); right: var(--space-xs); }
 
     @media (hover: hover) {
       a, .project, .action {
         transition: opacity var(--duration-link) var(--ease-out);
       }
       a:hover, .project:hover, .action:hover { opacity: 0.55; }
-    }
-    @media (min-width: 768px) {
-      .projects { gap: var(--space-md); }
     }
     body:has(dialog[open]) .actions { display: none; }
     @media (prefers-reduced-motion: reduce) {
@@ -359,17 +344,17 @@
       <ul class="experience">
         <li>
           <p class="role">ArtCenter College of Design</p>
-          <p class="meta">Graduate Industrial Design — graduating Fall 2026</p>
+          <p class="meta">GradID, graduating 26 Fall</p>
         </li>
         <li>
           <!-- EDIT URL -->
           <p class="role"><a href="https://www.instagram.com/yangdesign_sh/" target="_blank" rel="noopener noreferrer">YANG DESIGN</a></p>
-          <p class="meta">Previously CMF Intern<br>Shanghai, China</p>
+          <p class="meta">CMF intern, Shanghai China</p>
         </li>
         <li>
           <!-- EDIT URL -->
           <p class="role"><a href="https://www.instagram.com/caraway_home/" target="_blank" rel="noopener noreferrer">Caraway Home</a></p>
-          <p class="meta">Incoming Industrial Design Intern<br>Los Angeles, CA</p>
+          <p class="meta">Incoming ID intern, Los Angeles CA</p>
         </li>
       </ul>
     </section>
@@ -411,52 +396,36 @@
   </div>
 
   <dialog id="unea-preview" class="preview">
-    <div class="preview-bar">
-      <p class="label">Unea</p>
-      <p class="count label">1 / 3</p>
-      <form method="dialog"><button class="close" type="submit">Close</button></form>
-    </div>
     <div class="reel">
       <img src="assets/unea/01.png" alt="Unea, a brushed metal wrist wearable, shown at an angle" width="1000" height="1000">
       <img src="assets/unea/02.png" alt="Unea as the clasp of a clear bead bracelet" width="1000" height="1000">
       <img src="assets/unea/03.jpg" alt="Unea worn on a wrist, in black and white" width="1000" height="1000">
     </div>
-    <div class="reel-nav">
-      <button type="button" data-dir="-1">Previous</button>
-      <button type="button" data-dir="1">Next</button>
-    </div>
+    <button class="float prev" type="button" data-dir="-1" aria-label="Previous"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M11 4 L6 9 L11 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button class="float next" type="button" data-dir="1" aria-label="Next"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M7 4 L12 9 L7 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <form method="dialog"><button class="float close" type="submit" aria-label="Close"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 4 L14 14 M14 4 L4 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></form>
   </dialog>
 
   <dialog id="nijimu-preview" class="preview">
-    <div class="preview-bar">
-      <p class="label">Nijimu</p>
-      <p class="count label">1 / 3</p>
-      <form method="dialog"><button class="close" type="submit">Close</button></form>
-    </div>
     <div class="reel">
       <img src="assets/nijimu/01.png" alt="Nijimu, an interactive memory timeline on a soft abstract field" width="800" height="800">
       <img src="assets/nijimu/02.png" alt="Nijimu asking what color a memory feels like" width="800" height="800">
       <img src="assets/nijimu/03.jpg" alt="Nijimu on a laptop screen, with the line Finding the thread between poetry, film, and design" width="1000" height="1000">
     </div>
-    <div class="reel-nav">
-      <button type="button" data-dir="-1">Previous</button>
-      <button type="button" data-dir="1">Next</button>
-    </div>
+    <button class="float prev" type="button" data-dir="-1" aria-label="Previous"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M11 4 L6 9 L11 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button class="float next" type="button" data-dir="1" aria-label="Next"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M7 4 L12 9 L7 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <form method="dialog"><button class="float close" type="submit" aria-label="Close"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 4 L14 14 M14 4 L4 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></form>
   </dialog>
 
   <script>
     document.querySelectorAll("[data-open]").forEach(function (button) {
       var dialog = document.getElementById(button.getAttribute("data-open"));
       var reel = dialog.querySelector(".reel");
-      var count = dialog.querySelector(".count");
       var slides = reel.querySelectorAll("img");
 
       function place() {
         var width = reel.clientWidth || 1;
         return Math.round(reel.scrollLeft / width);
-      }
-      function update() {
-        count.textContent = place() + 1 + " / " + slides.length;
       }
       function go(direction) {
         var width = reel.clientWidth;
@@ -467,9 +436,7 @@
       button.addEventListener("click", function () {
         dialog.showModal();
         reel.scrollLeft = 0;
-        update();
       });
-      reel.addEventListener("scroll", update, { passive: true });
       dialog.querySelector("[data-dir='-1']").addEventListener("click", function () { go(-1); });
       dialog.querySelector("[data-dir='1']").addEventListener("click", function () { go(1); });
       dialog.addEventListener("click", function (event) {
