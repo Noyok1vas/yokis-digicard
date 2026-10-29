@@ -101,14 +101,20 @@
     :focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }
 
     .hero {
+      position: relative;
       width: min(100%, var(--page));
-      min-height: 100svh;
+      height: 100svh;
       margin: 0 auto;
-      display: flex;
-      flex-direction: column;
+      overflow: hidden;
     }
     .etho {
-      padding: var(--space-md) var(--space-sm) calc(5.25rem + env(safe-area-inset-bottom, 0px));
+      position: absolute;
+      z-index: 1;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: var(--space-2xl) var(--space-sm) calc(var(--space-lg) + env(safe-area-inset-bottom, 0px));
+      background: linear-gradient(to top, rgb(244 244 244 / 0.94), rgb(244 244 244 / 0.7) 48%, transparent);
     }
     .page {
       width: min(100%, var(--page));
@@ -118,11 +124,6 @@
     .reveal {
       opacity: 0;
       transform: translateY(1.25rem);
-      transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out);
-    }
-    .reveal.is-in {
-      opacity: 1;
-      transform: none;
     }
 
     .label {
@@ -135,17 +136,14 @@
       color: var(--color-secondary);
     }
 
-    /* PORTRAIT — replace assets/portrait.jpg. Fills the first screen above the etho. */
+    /* PORTRAIT — replace assets/portrait.jpg. The first screen is this photo. */
     .portrait {
-      flex: 1 1 auto;
-      min-height: 0;
+      position: absolute;
+      inset: 0;
       margin: 0;
-      position: relative;
       background: var(--color-body-render);
     }
     .portrait img {
-      position: absolute;
-      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -268,6 +266,13 @@
       padding: var(--space-xs) var(--space-sm) calc(var(--space-xs) + env(safe-area-inset-bottom, 0px));
       background: var(--color-body);
       box-shadow: var(--shadow-footer);
+      transform: translateY(110%);
+      pointer-events: none;
+      transition: transform 450ms var(--ease-out);
+    }
+    .actions.is-in {
+      transform: none;
+      pointer-events: auto;
     }
     .action {
       display: flex;
@@ -344,7 +349,8 @@
     body:has(dialog[open]) .actions { display: none; }
     @media (prefers-reduced-motion: reduce) {
       .reel { scroll-behavior: auto; }
-      .reveal { opacity: 1; transform: none; transition: none; }
+      .reveal { opacity: 1; transform: none; }
+      .actions { transition: none; }
       a, .project, .action { transition: none; }
     }
   </style>
@@ -418,7 +424,7 @@
   </main>
 
   <!-- CONTACT: Add to Contacts opens yokis.vcf. PNG CARD: Save Card opens card.png. -->
-  <div class="actions">
+  <div class="actions" inert>
     <a class="action primary" href="yokis.vcf">Add to Contacts</a>
     <a class="action" href="card.png" download="Yokis.png">Save Card</a>
   </div>
@@ -447,18 +453,39 @@
 
   <script>
     var revealItems = document.querySelectorAll(".reveal");
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      revealItems.forEach(function (item) { item.classList.add("is-in"); });
-    } else {
-      var revealObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add("is-in");
-          revealObserver.unobserve(entry.target);
-        });
-      }, { threshold: 0.2, rootMargin: "0px 0px -8% 0px" });
-      revealItems.forEach(function (item) { revealObserver.observe(item); });
+    var actions = document.querySelector(".actions");
+    var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function revealProgress(el) {
+      var top = el.getBoundingClientRect().top;
+      var view = window.innerHeight;
+      var start = view;
+      var end = view * 0.72;
+      return Math.min(1, Math.max(0, (start - top) / (start - end)));
     }
+
+    function updateScroll() {
+      var atEnd = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 24;
+      actions.classList.toggle("is-in", atEnd);
+      if (atEnd) actions.removeAttribute("inert");
+      else actions.setAttribute("inert", "");
+      if (reduceMotion) return;
+      revealItems.forEach(function (el) {
+        var progress = revealProgress(el);
+        el.style.opacity = String(progress);
+        el.style.transform = "translateY(" + ((1 - progress) * 1.25) + "rem)";
+      });
+    }
+
+    if (reduceMotion) {
+      revealItems.forEach(function (el) {
+        el.style.opacity = "1";
+        el.style.transform = "none";
+      });
+    }
+    updateScroll();
+    window.addEventListener("scroll", updateScroll, { passive: true });
+    window.addEventListener("resize", updateScroll);
 
     document.querySelectorAll("[data-open]").forEach(function (button) {
       var dialog = document.getElementById(button.getAttribute("data-open"));
