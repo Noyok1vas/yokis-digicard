@@ -100,10 +100,29 @@
     img { display: block; max-width: 100%; }
     :focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }
 
+    .hero {
+      width: min(100%, var(--page));
+      min-height: 100svh;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .etho {
+      padding: var(--space-md) var(--space-sm) calc(5.25rem + env(safe-area-inset-bottom, 0px));
+    }
     .page {
       width: min(100%, var(--page));
       margin: 0 auto;
       padding: 0 var(--space-sm) calc(7.5rem + env(safe-area-inset-bottom, 0px));
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(1.25rem);
+      transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out);
+    }
+    .reveal.is-in {
+      opacity: 1;
+      transform: none;
     }
 
     .label {
@@ -116,15 +135,19 @@
       color: var(--color-secondary);
     }
 
-    /* PORTRAIT — replace assets/portrait.jpg. Flush to the top and the column edges. */
+    /* PORTRAIT — replace assets/portrait.jpg. Fills the first screen above the etho. */
     .portrait {
-      margin: 0 calc(var(--space-sm) * -1) var(--space-lg);
+      flex: 1 1 auto;
+      min-height: 0;
+      margin: 0;
+      position: relative;
       background: var(--color-body-render);
     }
     .portrait img {
+      position: absolute;
+      inset: 0;
       width: 100%;
-      height: auto;
-      aspect-ratio: 1600 / 948;
+      height: 100%;
       object-fit: cover;
       object-position: 70% center;
     }
@@ -142,7 +165,8 @@
       color: var(--color-primary);
     }
 
-    section { margin-top: var(--space-xl); }
+    .page section { margin-top: var(--space-xl); }
+    .page section:first-child { margin-top: var(--space-lg); }
     .section-label { margin-bottom: var(--space-md); }
 
     /* Experience stays quiet so the project cards read first. */
@@ -320,12 +344,13 @@
     body:has(dialog[open]) .actions { display: none; }
     @media (prefers-reduced-motion: reduce) {
       .reel { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
       a, .project, .action { transition: none; }
     }
   </style>
 </head>
 <body>
-  <main class="page">
+  <section class="hero">
     <!-- PORTRAIT: replace assets/portrait.jpg, then update the alt. -->
     <figure class="portrait">
       <img
@@ -335,11 +360,14 @@
         height="948"
       >
     </figure>
+    <div class="etho">
+      <h1>Hi! I’m Yokis!</h1>
+      <p class="intro">I design across physical and digital touchpoints, using form, material, and interaction to create a coherent product experience.</p>
+    </div>
+  </section>
 
-    <h1>Hi! I’m Yokis!</h1>
-    <p class="intro">I design across physical and digital touchpoints, using form, material, and interaction to create a coherent product experience.</p>
-
-    <section aria-labelledby="experience-label">
+  <main class="page">
+    <section class="reveal" aria-labelledby="experience-label">
       <h2 id="experience-label" class="label section-label">My experience</h2>
       <ul class="experience">
         <li>
@@ -359,7 +387,7 @@
       </ul>
     </section>
 
-    <section class="now" aria-labelledby="now-label">
+    <section class="now reveal" aria-labelledby="now-label">
       <h2 id="now-label" class="label section-label">Currently working on</h2>
       <div class="projects">
         <!-- UNEA IMAGES: preview is 01. Tap opens 01, 02, 03 in that order. -->
@@ -377,7 +405,7 @@
       </div>
     </section>
 
-    <section class="find" aria-labelledby="find-label">
+    <section class="find reveal" aria-labelledby="find-label">
       <h2 id="find-label" class="label section-label">Where to find me</h2>
       <!-- EDIT URL -->
       <a href="https://yokis.space" target="_blank" rel="noopener noreferrer">Website <small>yokis.space</small></a>
@@ -418,6 +446,20 @@
   </dialog>
 
   <script>
+    var revealItems = document.querySelectorAll(".reveal");
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      revealItems.forEach(function (item) { item.classList.add("is-in"); });
+    } else {
+      var revealObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-in");
+          revealObserver.unobserve(entry.target);
+        });
+      }, { threshold: 0.2, rootMargin: "0px 0px -8% 0px" });
+      revealItems.forEach(function (item) { revealObserver.observe(item); });
+    }
+
     document.querySelectorAll("[data-open]").forEach(function (button) {
       var dialog = document.getElementById(button.getAttribute("data-open"));
       var reel = dialog.querySelector(".reel");
