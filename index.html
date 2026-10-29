@@ -113,8 +113,8 @@
       left: 0;
       right: 0;
       bottom: 0;
-      padding: var(--space-2xl) var(--space-sm) calc(var(--space-lg) + env(safe-area-inset-bottom, 0px));
-      background: linear-gradient(to top, rgb(244 244 244 / 0.94), rgb(244 244 244 / 0.7) 48%, transparent);
+      padding: var(--space-xl) var(--space-sm) calc(8rem + env(safe-area-inset-bottom, 0px));
+      background: linear-gradient(to top, rgb(244 244 244 / 0.94), rgb(244 244 244 / 0.78) 42%, transparent);
     }
     .page {
       width: min(100%, var(--page));
@@ -189,13 +189,17 @@
       line-height: var(--leading-base);
     }
 
+    .page section.now { margin-top: 22vh; }
     .now .section-label { margin-bottom: var(--space-sm); }
     .projects {
       display: grid;
       grid-template-columns: 1fr;
-      gap: var(--space-md);
+      gap: var(--space-sm);
+      margin-left: calc(var(--space-sm) * -1);
+      margin-right: calc(var(--space-sm) * -1);
     }
     .project {
+      position: relative;
       display: block;
       width: 100%;
       padding: 0;
@@ -211,22 +215,27 @@
       object-fit: cover;
       background: var(--color-body-render);
     }
+    .project-copy {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: var(--space-2xl) var(--space-sm) var(--space-md);
+      background: linear-gradient(to top, rgb(244 244 244 / 0.94), rgb(244 244 244 / 0.72) 48%, transparent);
+    }
     .project-title {
       display: block;
-      margin-top: var(--space-xs);
       font-size: var(--text-lg);
       font-weight: 500;
       letter-spacing: var(--tracking-display);
       line-height: var(--leading-tight);
     }
-    .project-meta {
+    .project-text {
       display: block;
-      margin-top: var(--space-3xs);
-      color: var(--color-dark-grey);
-      font-family: var(--font-mono);
-      font-size: var(--text-2xs);
-      letter-spacing: var(--tracking-mono);
-      text-transform: uppercase;
+      max-width: 34ch;
+      margin-top: var(--space-2xs);
+      font-size: var(--text-sm);
+      line-height: var(--leading-base);
     }
 
     .find { margin-top: var(--space-xl); }
@@ -378,7 +387,7 @@
       <ul class="experience">
         <li>
           <p class="role">ArtCenter College of Design</p>
-          <p class="meta">GradID, graduating 26 Fall</p>
+          <p class="meta">GradID, graduating 26 Fall, Pasadena CA</p>
         </li>
         <li>
           <!-- EDIT URL -->
@@ -393,20 +402,24 @@
       </ul>
     </section>
 
-    <section class="now reveal" aria-labelledby="now-label">
-      <h2 id="now-label" class="label section-label">Currently working on</h2>
-      <div class="projects">
+    <section class="now" aria-labelledby="now-label">
+      <h2 id="now-label" class="label section-label reveal">Currently working on</h2>
+      <div class="projects reveal">
         <!-- UNEA IMAGES: preview is 01. Tap opens 01, 02, 03 in that order. -->
         <button class="project" type="button" data-open="unea-preview">
           <img src="assets/unea/01.png" alt="Unea, a brushed metal wrist wearable, shown at an angle" width="1000" height="1000">
-          <span class="project-title">Unea</span>
-          <span class="project-meta">Wrist wearable</span>
+          <span class="project-copy">
+            <span class="project-title">Unea</span>
+            <span class="project-text">An adaptive AI wearable that builds personalized emotional intelligence.</span>
+          </span>
         </button>
         <!-- NIJIMU IMAGES: preview is 01. Tap opens 01, 02, 03 in that order. -->
         <button class="project" type="button" data-open="nijimu-preview">
           <img src="assets/nijimu/01.png" alt="Nijimu, an interactive memory timeline on a soft abstract field" width="800" height="800">
-          <span class="project-title">Nijimu</span>
-          <span class="project-meta">Interactive experience</span>
+          <span class="project-copy">
+            <span class="project-title">Nijimu</span>
+            <span class="project-text">A digital experience that explores how memories can be recorded and reshaped.</span>
+          </span>
         </button>
       </div>
     </section>
